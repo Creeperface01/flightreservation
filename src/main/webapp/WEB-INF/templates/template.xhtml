@@ -3,12 +3,34 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="/admin.xhtml">
 
+    <ui:debug/>
+
     <ui:define name="logo-lg">
         Administrace
     </ui:define>
 
     <ui:define name="logo-mini">
         Admin
+    </ui:define>
+
+    <ui:define name="template-header">
+        <ui:repeat value="#{flashBag.flashes}" var="flash2">
+            <div class="callout callout-#{flash2.severity.htmlName} flash"
+                 style="position: absolute;right: 0;z-index: 100000">
+                <h4>#{flash2.title}</h4>
+
+                <p>#{flash2.message}</p>
+            </div>
+        </ui:repeat>
+        <script>
+            $(document).ready(() => {
+                setTimeout(() => {
+                    $('.flash').fadeOut(400);
+                }, 3000);
+            });
+        </script>
+
+        <ui:insert name="template-header"/>
     </ui:define>
 
     <ui:define name="top-menu">

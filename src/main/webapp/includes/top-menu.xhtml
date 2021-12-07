@@ -70,9 +70,9 @@
                                 <li>
                                     <div class="form-group">
                                         <h:commandButton
-                                                value="Přihlásit se"
+                                                value="Registrovat se"
                                                 styleClass="btn btn-primary"
-                                                action="#{authUser.login(authForm.email, authForm.password)}"
+                                                action="#{authUser.register(authForm.user)}"
                                         />
                                     </div>
                                 </li>
@@ -97,7 +97,7 @@
                                     <div class="form-group">
                                         <label>Email</label>
                                         <h:inputText
-                                                value="#{authForm.email}"
+                                                value="#{authForm.user.email}"
                                                 styleClass="form-control"
                                         />
                                     </div>
@@ -106,7 +106,7 @@
                                     <div class="form-group">
                                         <label>Heslo</label>
                                         <h:inputText
-                                                value="#{authForm.password}"
+                                                value="#{authForm.user.password}"
                                                 styleClass="form-control"
                                         />
                                     </div>
@@ -116,7 +116,7 @@
                                         <h:commandButton
                                                 value="Přihlásit se"
                                                 styleClass="btn btn-primary"
-                                                action="#{authUser.login(authForm.email, authForm.password)}"
+                                                action="#{authUser.login(authForm.user.email, authForm.user.password)}"
                                         />
                                     </div>
                                 </li>

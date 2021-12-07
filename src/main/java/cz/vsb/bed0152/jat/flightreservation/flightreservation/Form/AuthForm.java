@@ -16,8 +16,4 @@ public class AuthForm implements Serializable {
 
     private User user = new User();
 
-    private String email;
-
-    private String password;
-
 }
