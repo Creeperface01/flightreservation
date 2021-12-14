@@ -1,8 +1,10 @@
 package cz.vsb.bed0152.jat.flightreservation.flightreservation.entity;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Include;
-import lombok.experimental.Accessors;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -12,12 +14,11 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Plane {
+public class Plane implements Resource {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    @Setter(value = AccessLevel.NONE)
     @Include
     private int id;
 
@@ -27,4 +28,8 @@ public class Plane {
     @Column(nullable = false)
     private String model;
 
+    @Override
+    public String getPartialIdentifier() {
+        return code;
+    }
 }

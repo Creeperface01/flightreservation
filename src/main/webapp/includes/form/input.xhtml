@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:f="http://java.sun.com/jsf/core"
+>
+
+    <h:inputText
+            rendered="#{reflectUtil.isType(data, property, 'java.lang.String')}"
+            styleClass="form-control"
+            value="#{data[property]}"
+    />
+
+    <h:inputText
+            rendered="#{reflectUtil.isType(data, property, 'java.lang.Integer')}"
+            styleClass="form-control"
+            value="#{data[property]}"
+            a:type="number"
+    />
+
+    <h:inputText
+            rendered="#{reflectUtil.isType(data, property, 'java.util.Date')}"
+            value="#{data[property]}"
+            styleClass="form-control"
+            a:type="datetime"
+    >
+        <f:convertDateTime pattern="yyyy-MM-dd"/>
+    </h:inputText>
+
+    <h:selectOneMenu
+            rendered="#{reflectUtil.isType(data, property, 'java.lang.Enum')}"
+            value="#{data[property]}"
+            styleClass="form-control select2"
+    >
+        <f:selectItems
+                value="#{reflectUtil.getEnumConstants(data, property)}"
+        />
+        <f:converter converterId="roleConverter"/>
+    </h:selectOneMenu>
+
+
+    <h:selectOneMenu
+            rendered="#{reflectUtil.isType(data, property, 'cz.vsb.bed0152.jat.flightreservation.flightreservation.entity.Resource')}"
+            value="#{data[property]}"
+            styleClass="form-control select2"
+    >
+        <f:selectItems
+                value="#{resourceManager.getController(reflectUtil.getType(data, property)).repository.all}"
+                var="r"
+                itemLabel="#{r.partialIdentifier}"
+                itemValue="#{r}"
+        />
+
+        <f:converter converterId="resourceConverter"/>
+        <f:attribute name="resource_class" value="#{reflectUtil.getType(data, property)}"/>
+    </h:selectOneMenu>
+
+</ui:composition>

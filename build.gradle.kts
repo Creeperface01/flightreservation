@@ -27,4 +27,7 @@ dependencies {
     implementation("org.hibernate:hibernate-core:${Hibernate.version}")
     implementation("org.hibernate.validator:hibernate-validator:${Hibernate.validatorVersion}")
     implementation("mysql:mysql-connector-java:${MySqlConnector.version}")
+    implementation("com.google.guava:guava:${Guava.version}")
+    implementation("at.favre.lib:bcrypt:${BCrypt.version}")
+    implementation("org.jooq:joor-java-8:0.9.13")
 }

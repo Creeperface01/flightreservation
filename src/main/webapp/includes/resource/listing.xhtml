@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
+
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3>#{title}</h3>
+            <h:commandButton
+                    rendered="#{allowCreate}"
+                    value="Nový"
+                    styleClass="btn btn-success"
+                    style="float: right"
+                    action="#{controller.create()}"
+            />
+        </div>
+        <div class="box-body">
+            <h:dataTable
+                    value="#{controller.repository.all}"
+                    var="r"
+                    styleClass="table"
+            >
+
+                <c:forEach items="#{properties}" var="entry">
+                    <h:column>
+                        <f:facet name="header">#{entry.key}</f:facet>
+
+                        <ui:fragment
+                                rendered="#{reflectUtil.isType(controller.form.entity, entry.value, 'cz.vsb.bed0152.jat.flightreservation.flightreservation.entity.Resource')}">
+                            #{r[entry.value].partialIdentifier}
+                        </ui:fragment>
+
+                        <ui:fragment
+                                rendered="#{not reflectUtil.isType(controller.form.entity, entry.value, 'cz.vsb.bed0152.jat.flightreservation.flightreservation.entity.Resource')}">
+                            #{r[entry.value]}
+                        </ui:fragment>
+                    </h:column>
+                </c:forEach>
+
+                <h:column>
+                    <f:facet name="header">Akce</f:facet>
+
+                    <h:commandButton
+                            value="Editovat"
+                            styleClass="btn btn-secondary"
+                            style="margin-right: 10px"
+                            action="#{controller.edit(r)}"
+                    />
+
+                    <p:commandButton
+                            value="Odstranit"
+                            styleClass="btn btn-danger"
+                            action="#{controller.repository.delete(r.id)}"
+                            ajax="true"
+                            oncomplete="window.location.replace(window.location.href);"
+                    >
+                        <p:confirm
+                                header="Odstranit"
+                                message="Opravdu chcete záznam ostranit?"
+                                icon="ui-icon-alert"
+                        />
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                        <p:commandButton value="Ne" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                        <p:commandButton value="Ano" type="button" styleClass="ui-confirmdialog-yes"/>
+                    </p:confirmDialog>
+                </h:column>
+
+            </h:dataTable>
+        </div>
+    </div>
+</ui:composition>

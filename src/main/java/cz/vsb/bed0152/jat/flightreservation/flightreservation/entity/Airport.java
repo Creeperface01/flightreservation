@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode.Include;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
@@ -15,7 +14,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Airport {
+public class Airport implements Resource {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,4 +30,9 @@ public class Airport {
 
     @Column(nullable = false)
     private String country;
+
+    @Override
+    public String getPartialIdentifier() {
+        return name;
+    }
 }

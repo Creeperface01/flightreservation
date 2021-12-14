@@ -3,8 +3,9 @@
 <ui:composition
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:p="http://primefaces.org/ui"
         xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
         template="#{layoutMB.template}"
 >
 
@@ -13,18 +14,208 @@
     </ui:define>
 
     <ui:define name="title">
-        Test
+
     </ui:define>
 
     <ui:define name="body">
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3>Test</h3>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3>Vyhledávání letů</h3>
+                    </div>
+                    <div class="box-body">
+                        <h:form>
+                            <h:messages globalOnly="false"/>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Datum od</label>
+                                        <h:inputText
+                                                value="#{flightSearch.from}"
+                                                styleClass="form-control"
+                                                a:type="date"
+                                        >
+                                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                        </h:inputText>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Datum do</label>
+                                        <h:inputText
+                                                value="#{flightSearch.to}"
+                                                styleClass="form-control"
+                                                a:type="date"
+                                        >
+                                            <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                        </h:inputText>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Letiště odletu</label>
+                                        <h:selectOneMenu
+                                                value="#{flightSearch.airportFrom}"
+                                                styleClass="form-control"
+                                        >
+                                            <f:selectItems
+                                                    value="#{airportRepository.all}"
+                                                    var="a"
+                                                    itemLabel="#{a.partialIdentifier}"
+                                                    itemValue="#{a}"
+                                            />
+                                            <f:converter converterId="resourceConverter"/>
+                                            <f:attribute
+                                                    name="resource_class"
+                                                    value="#{resourceManager.getResource('Airport')}"
+                                            />
+                                        </h:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Letiště příletu</label>
+                                        <h:selectOneMenu
+                                                value="#{flightSearch.airportTo}"
+                                                styleClass="form-control"
+                                        >
+                                            <f:selectItems
+                                                    value="#{airportRepository.all}"
+                                                    var="a"
+                                                    itemLabel="#{a.partialIdentifier}"
+                                                    itemValue="#{a}"
+                                            />
+                                            <f:converter converterId="resourceConverter"/>
+                                            <f:attribute
+                                                    name="resource_class"
+                                                    value="#{resourceManager.getResource('Airport')}"
+                                            />
+                                        </h:selectOneMenu>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12 text-center center">
+                                    <h:commandButton
+                                            value="Hledat"
+                                            styleClass="btn btn-primary"
+                                            action="#{flightController.search(flightSearch)}"
+                                    />
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+                <h:messages globalOnly="false"/>
             </div>
-            <div class="box-body">
-                <p>Nevím</p>
-                <h:outputText value="flight: '#{layoutController.flights}'"/>
-            </div>
+
+            <ui:fragment rendered="#{flightSearch.search}">
+                <div class="col-sm-12 col-md-6">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3>Výsledky</h3>
+                        </div>
+                        <div class="box-body">
+                            <ui:fragment rendered="#{not empty flightSearch.result}">
+                                <h:form>
+                                    <h:dataTable
+                                            value="#{flightSearch.result}"
+                                            var="f"
+                                            styleClass="table"
+                                    >
+
+                                        <h:column>
+                                            <f:facet name="header">Cena</f:facet>
+
+                                            <h:outputText value="#{f.price}"/>
+                                        </h:column>
+
+                                        <h:column>
+                                            <f:facet name="header">Akce</f:facet>
+
+                                            <h:commandButton
+                                                    value="Koupit lístek"
+                                                    styleClass="btn btn-success"
+                                                    action="#{flightController.purchaseInit(f)}"
+                                            />
+                                        </h:column>
+
+                                    </h:dataTable>
+                                </h:form>
+                            </ui:fragment>
+                            <ui:fragment rendered="#{empty flightSearch.result}">
+                                <h:outputText value="Nebyly nalezeny žádné lety"/>
+                            </ui:fragment>
+                        </div>
+                    </div>
+                </div>
+            </ui:fragment>
+
+            <ui:fragment rendered="#{not empty flightPurchase.flight}">
+                <div class="col-sm-12 col-md-6">
+                    <h:form>
+                        <h:inputHidden value="#{flightPurchase.flightId}"/>
+
+                        <div class="form-group">
+                            <label>Jméno</label>
+                            <h:inputText
+                                    value="#{passengerForm.name}"
+                                    styleClass="form-control"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label>Příjmení</label>
+                            <h:inputText
+                                    value="#{passengerForm.surname}"
+                                    styleClass="form-control"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label>E-mail</label>
+                            <h:inputText
+                                    value="#{passengerForm.email}"
+                                    styleClass="form-control"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label>Datum narození</label>
+                            <h:inputText
+                                    value="#{passengerForm.birthDate}"
+                                    styleClass="form-control"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Sedadlo</label>
+                            <h:inputText
+                                    value="#{passengerForm.seat}"
+                                    styleClass="form-control"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Zavazadlo</label>
+                            <h:selectBooleanCheckbox
+                                    value="#{passengerForm.bag}"
+                                    styleClass="form-control"
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <h:commandButton
+                                    styleClass="btn btn-success"
+                                    value="Koupit"
+                                    action="#{flightController.purchase(flightPurchase, passengerForm)}"
+                            />
+                        </div>
+                    </h:form>
+                </div>
+            </ui:fragment>
         </div>
     </ui:define>
 </ui:composition>

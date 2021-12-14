@@ -1,7 +1,11 @@
 package cz.vsb.bed0152.jat.flightreservation.flightreservation.entity;
 
-import lombok.*;
+import cz.vsb.bed0152.jat.flightreservation.flightreservation.component.user.Role;
+import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Include;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -11,15 +15,23 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class User extends Person {
+public class User extends Person implements Resource {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    @Setter(value = AccessLevel.NONE)
     @Include
     private int id;
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.USER;
+
+    @Override
+    public String getPartialIdentifier() {
+        return getName() + " " + getSurname();
+    }
 }

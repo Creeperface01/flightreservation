@@ -5,6 +5,7 @@ import lombok.val;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -40,5 +41,9 @@ public class Extensions {
         return entityManager
                 .createQuery(createQueryFrom(entityManager, entity, criteria))
                 .getResultList();
+    }
+
+    public <T> List<T> findAll(EntityManager entityManager, Class<T> entity) {
+        return findBy(entityManager, entity, Collections.emptyMap());
     }
 }

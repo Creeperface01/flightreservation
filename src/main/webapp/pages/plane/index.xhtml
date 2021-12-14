@@ -1,8 +1,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:adm="http://github.com/adminfaces" xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 template="#{layoutMB.template}">
 
     <ui:define name="title">
@@ -10,7 +9,26 @@
     </ui:define>
 
     <ui:define name="body">
+        <div class="row">
+            <h:form>
+                <c:set var="properties" value="#{{'Kód':'code', 'Model': 'model'}}"/>
 
+                <div class="col-md-12 col-lg-6">
+                    <ui:include src="/includes/resource/listing.xhtml">
+                        <ui:param name="title" value="Letadla"/>
+                        <ui:param name="controller" value="#{planeController}"/>
+                        <ui:param name="allowCreate" value="#{true}"/>
+                        <ui:param name="properties" value="#{properties}"/>
+                    </ui:include>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                    <ui:include src="/includes/resource/form.xhtml">
+                        <ui:param name="controller" value="#{planeController}"/>
+                        <ui:param name="properties" value="#{properties}"/>
+                    </ui:include>
+                </div>
+            </h:form>
+        </div>
     </ui:define>
 
 </ui:composition>

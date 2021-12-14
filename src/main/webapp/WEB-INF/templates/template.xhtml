@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
                 template="/admin.xhtml">
 
     <ui:debug/>
@@ -39,6 +40,19 @@
 
     <ui:define name="menu">
         <ui:include src="/includes/menu.xhtml"/>
+    </ui:define>
+
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+        <p:commandButton value="Ano" styleClass="ui-confirmdialog-yes"/>
+        <p:commandButton value="Ne" styleClass="ui-confirmdialog-no"/>
+    </p:confirmDialog>
+
+    <ui:define name="after-wrapper">
+        <script type="text/javascript">
+            (() => {
+                // $('.select2').select2();
+            })();
+        </script>
     </ui:define>
 
 </ui:composition>

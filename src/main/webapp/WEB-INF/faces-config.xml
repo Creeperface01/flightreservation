@@ -5,13 +5,13 @@
 
     <application>
         <resource-handler>org.omnifaces.resourcehandler.CombinedResourceHandler</resource-handler>
-        <message-bundle>
-            showcase
-        </message-bundle>
-        <resource-bundle>
-            <base-name>showcase</base-name>
-            <var>msg</var>
-        </resource-bundle>
+        <!--        <message-bundle>-->
+        <!--            showcase-->
+        <!--        </message-bundle>-->
+        <!--        <resource-bundle>-->
+        <!--            <base-name>showcase</base-name>-->
+        <!--            <var>msg</var>-->
+        <!--        </resource-bundle>-->
     </application>
 
     <application>

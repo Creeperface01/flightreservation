@@ -6,38 +6,43 @@
     <ul class="sidebar-menu tree" data-widget="tree">
         <li>
             <p:link outcome="#{router.home}">
-                <i class="fa fa-home"></i>
-                <span>Přehled</span>
+                <i class="fa fa-search"></i>
+                <span>Vyhledávání</span>
             </p:link>
+        </li>
+        <li>
+            <br/>
         </li>
 
-        <li>
-            <p:link outcome="#{router.flightIndex}">
-                <i class="fa fa-paper-plane"></i>
-                <span>Lety</span>
-            </p:link>
-        </li>
+        <ui:fragment rendered="#{authUser.loggedIn and authUser.role == 'ADMIN'}">
+            <li>
+                <p:link outcome="#{router.flightIndex}">
+                    <i class="fa fa-paper-plane"></i>
+                    <span>Lety</span>
+                </p:link>
+            </li>
 
-        <li>
-            <p:link outcome="#{router.airportIndex}">
-                <i class="fa fa-home"></i>
-                <span>Letiště</span>
-            </p:link>
-        </li>
+            <li>
+                <p:link outcome="#{router.airportIndex}">
+                    <i class="fa fa-home"></i>
+                    <span>Letiště</span>
+                </p:link>
+            </li>
 
-        <li>
-            <p:link outcome="#{router.planeIndex}">
-                <i class="fa fa-plane"></i>
-                <span>Letadla</span>
-            </p:link>
-        </li>
+            <li>
+                <p:link outcome="#{router.planeIndex}">
+                    <i class="fa fa-plane"></i>
+                    <span>Letadla</span>
+                </p:link>
+            </li>
 
-        <li>
-            <p:link outcome="#{router.userIndex}">
-                <i class="fa fa-users"></i>
-                <span>Uživatelé</span>
-            </p:link>
-        </li>
+            <li>
+                <p:link outcome="#{router.userIndex}">
+                    <i class="fa fa-users"></i>
+                    <span>Uživatelé</span>
+                </p:link>
+            </li>
+        </ui:fragment>
     </ul>
 
 

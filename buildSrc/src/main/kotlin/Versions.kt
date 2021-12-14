@@ -20,3 +20,15 @@ object AdminFaces {
     const val templateVersion = "1.3.0"
 
 }
+
+object Guava {
+
+    const val version = "31.0.1-jre"
+
+}
+
+object BCrypt {
+
+    const val version = "0.9.0"
+
+}
